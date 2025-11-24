@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Greenhouse System - Nichula Sathmith Wasalathilaka</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8fafc;
+        }
+
+        /* Navigation - Same as your portfolio */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: #64748b;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: #2563eb;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #333;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Container and Section Styles */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 5rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #1e293b;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #2563eb, #3b82f6);
+            border-radius: 2px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><path d="M0,500 C200,300 400,700 600,500 C800,300 1000,500 1000,500 L1000,1000 L0,1000 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            z-index: 1;
+            position: relative;
+        }
+
+        .hero-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #34d399;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border-color: white;
+        }
+
+        .btn-outline:hover {
+            background: white;
+            color: #10b981;
+        }
+
+        /* Overview Section */
+        .overview {
+            background: white;
+        }
+
+        .overview-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .overview-text {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+
+        .objectives {
+            list-style: none;
+            padding: 0;
+        }
+
+        .objectives li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 10px;
+            border-left: 4px solid #10b981;
+        }
+
+        .objectives li i {
+            color: #10b981;
+            font-size: 1.2rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #10b981;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        /* Architecture Section */
+        .architecture {
+            background: #f8fafc;
+        }
+
+        .arch-diagram {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .arch-svg {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            border: 2px dashed #e2e8f0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 1.1rem;
+            margin: 0 auto;
+        }
+
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .component-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .component-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .component-icon {
+            font-size: 2.5rem;
+            color: #10b981;
+            margin-bottom: 1rem;
+        }
+
+        .component-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .component-desc {
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        /* Software Features Section */
+        .software {
+            background: white;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 15px;
+            border-left: 4px solid #2563eb;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card:nth-child(odd) {
+            border-left-color: #10b981;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card:nth-child(odd) .feature-icon {
+            color: #10b981;
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .feature-desc {
+            color: #64748b;
+        }
+
+        /* Hardware Section */
+        .hardware {
+            background: #f8fafc;
+        }
+
+        .hardware-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .hardware-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .hardware-icon {
+            font-size: 2rem;
+            color: #10b981;
+            margin-bottom: 1rem;
+        }
+
+        .pcb-info {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .algorithm-box {
+            background: #1e293b;
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        * Media Gallery Styles */
+.gallery {
+    padding: 4rem 0;
+    background: linear-gradient(135deg, #f8f9ff 0%, #e8f5e8 100%);
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.gallery-item {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+.gallery-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.gallery-image {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    position: relative;
+}
+
+.gallery-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover .gallery-image img {
+    transform: scale(1.05);
+}
+
+.gallery-content {
+    padding: 1.5rem;
+}
+
+.gallery-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.gallery-desc {
+    color: #7f8c8d;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #27ae60, #2ecc71);
+    border-radius: 2px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+/* Zoom indicator */
+.gallery-item::before {
+    content: '🔍';
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+    font-size: 1rem;
+}
+
+.gallery-item:hover::before {
+    opacity: 1;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .gallery-image {
+        height: 200px;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .container {
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery {
+        padding: 2rem 0;
+    }
+    
+    .gallery-grid {
+        gap: 1rem;
+    }
+    
+    .gallery-content {
+        padding: 1rem;
+    }
+    
+    .gallery-title {
+        font-size: 1.1rem;
+    }
+    
+    .gallery-desc {
+        font-size: 0.9rem;
+    }
+}
+
+        /* Research Section */
+        .research {
+            background: #f8fafc;
+        }
+
+        .research-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .research-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .research-icon {
+            font-size: 2rem;
+            color: #10b981;
+            margin-bottom: 1rem;
+        }
+
+        .research-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .research-desc {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+
+        .research-points {
+            list-style: none;
+            padding: 0;
+        }
+
+        .research-points li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: #64748b;
+        }
+
+        .research-points li i {
+            color: #10b981;
+        }
+
+        /* Resources Section */
+        .resources {
+            background: white;
+        }
+
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .resource-card {
+            background: #f8fafc;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .resource-icon {
+            font-size: 2.5rem;
+            color: #2563eb;
+            margin-bottom: 1rem;
+        }
+
+        .resource-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        /* Conclusion Section */
+        .conclusion {
+            background: #f8fafc;
+        }
+
+        .conclusion-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .conclusion-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .conclusion-icon {
+            font-size: 2rem;
+            color: #10b981;
+            margin-bottom: 1rem;
+        }
+
+        .conclusion-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .future-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .future-list li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+
+        .future-list li i {
+            color: #10b981;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: white;
+        }
+
+        .contact-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-text {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1e293b;
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: #2563eb;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: white;
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+                padding: 2rem 0;
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .overview-content {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .components-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hardware-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .research-content {
+                grid-template-columns: 1fr;
+            }
+
+            .conclusion-content {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .footer-content {
+                flex-direction: column;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .container {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">Nichula S. Wasalathilaka</div>
+            <ul class="nav-menu">
+    <li><a href="index.html" class="nav-link active">Back To Portfolio</a></li>
+</ul>
+
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+  <section id="hero" class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-icon pulse">
+                <i class="fas fa-seedling"></i>
+            </div>
+            <h1>Smart Greenhouse System</h1>
+            <p class="hero-subtitle">Automated Environmental Monitoring and Control for Modern Agriculture</p>
+            
+            <a href="https://www.youtube.com/watch?v=cL97SUo4XJA" target="_blank" class="btn">
+    <i class="fas fa-play"></i>
+    View Demo
+</a>
+
+                
+                <!-- GitHub repo link correctly added -->
+                <a href="https://github.com/nichula01/smart-greenhouse" target="_blank" class="btn btn-outline">
+                    <i class="fab fa-github"></i>
+                    GitHub Repo
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+    <!-- Overview Section -->
+    <section id="overview" class="section overview">
+        <div class="container">
+            <h2 class="section-title">Project Overview</h2>
+            <div class="overview-content">
+                <div>
+                    <p class="overview-text">
+                        The Smart Greenhouse System addresses the growing need for efficient agricultural practices in an era of climate change and food security concerns. This IoT-based solution combines embedded systems, machine learning, and real-time monitoring to create an intelligent farming environment that optimizes plant growth while minimizing resource consumption.
+                    </p>
+                    <p class="overview-text">
+                        Traditional farming methods often rely on manual monitoring and guesswork, leading to inefficient resource usage and suboptimal crop yields. Our system leverages automation and data-driven insights to revolutionize greenhouse management.
+                    </p>
+                    <ul class="objectives">
+                        <li>
+                            <i class="fas fa-bullseye"></i>
+                            <span>Automate environmental monitoring and control systems for optimal plant growth conditions</span>
+                        </li>
+                        <li>
+                            <i class="fas fa-water"></i>
+                            <span>Implement intelligent irrigation systems that reduce water consumption </span>
+                        </li>
+                        <li>
+                            <i class="fas fa-brain"></i>
+                            <span>Integrate AI-powered disease detection and agricultural assistance through advanced ML models</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number">5</div>
+                        <div class="stat-label">Sensors Integrated</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Monitoring</div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="section architecture">
+        <div class="container">
+            <h2 class="section-title">System Architecture</h2>
+            <div class="arch-diagram">
+                <div class="arch-svg">
+                    <div>
+                        <i class="fas fa-project-diagram" style="font-size: 3rem; color: #10b981; margin-bottom: 1rem;"></i>
+                        <p>System Architecture Diagram</p>
+                        <p style="font-size: 0.9rem; color: #94a3b8;">Arduino UNO → Sensors → Raspberry Pi → Web Dashboard</p>
+                    </div>
+                </div>
+                <p style="margin-top: 1rem; color: #64748b;">
+                    The system architecture follows a hierarchical approach where Arduino UNO handles sensor data collection and actuator control, while Raspberry Pi manages data processing, web services, and external API communications.
+                </p>
+            </div>
+            <div class="components-grid">
+                <div class="component-card">
+                    <div class="component-icon">
+                        <i class="fas fa-thermometer-half"></i>
+                    </div>
+                    <h3 class="component-title">DHT11 Sensor</h3>
+                    <p class="component-desc">Temperature and humidity monitoring with ±2°C accuracy</p>
+                </div>
+                <div class="component-card">
+                    <div class="component-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <h3 class="component-title">Soil Moisture</h3>
+                    <p class="component-desc">Capacitive soil moisture sensor for irrigation control</p>
+                </div>
+                <div class="component-card">
+                    <div class="component-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <h3 class="component-title">LDR Sensor</h3>
+                    <p class="component-desc">Light intensity measurement for optimal lighting conditions</p>
+                </div>
+                <div class="component-card">
+                    <div class="component-icon">
+                        <i class="fas fa-cloud-rain"></i>
+                    </div>
+                    <h3 class="component-title">Rain Sensor</h3>
+                    <p class="component-desc">Precipitation detection for automatic irrigation adjustment</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Software Features Section -->
+    <section id="software" class="section software">
+        <div class="container">
+            <h2 class="section-title">Software Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Real-time Dashboard</h3>
+                    <p class="feature-desc">Comprehensive monitoring interface displaying temperature, humidity, soil moisture, and light levels with interactive charts and historical data analysis.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cloud-sun"></i>
+                    </div>
+                    <h3 class="feature-title">Weather Predictions</h3>
+                    <p class="feature-desc">Integration with Google Weather API to provide accurate weather forecasts, enabling proactive greenhouse management decisions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3 class="feature-title">Disease Detection</h3>
+                    <p class="feature-desc">AI-powered image analysis system that identifies plant diseases through photo uploads, providing early detection and treatment recommendations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="feature-title">Live Camera Feed</h3>
+                    <p class="feature-desc">Remote monitoring capabilities with live video streaming from the greenhouse, allowing real-time visual inspection of crops.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="feature-title">AI Agricultural Assistant</h3>
+                    <p class="feature-desc">Gemini-powered chatbot providing expert agricultural advice, answering questions about plant care, pest control, and optimal growing conditions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Mobile Responsive</h3>
+                    <p class="feature-desc">Fully responsive web application accessible from any device, ensuring farmers can monitor and control their greenhouse from anywhere.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hardware Integration Section -->
+    <section id="hardware" class="section hardware">
+        <div class="container">
+            <h2 class="section-title">Hardware Integration</h2>
+            <div class="hardware-grid">
+                <div class="hardware-item">
+                    <div class="hardware-icon"><i class="fas fa-microchip"></i>
+                    </div>
+                    <h3>Arduino UNO</h3>
+                    <p>Main microcontroller for sensor data collection and actuator control</p>
+                </div>
+                <div class="hardware-item">
+                    <div class="hardware-icon">
+                        <i class="fab fa-raspberry-pi"></i>
+                    </div>
+                    <h3>Raspberry Pi</h3>
+                    <p>Central processing unit for web services and AI computations</p>
+                </div>
+                <div class="hardware-item">
+                    <div class="hardware-icon">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <h3>Relay Module</h3>
+                    <p>4-channel relay for controlling irrigation pumps and fans</p>
+                </div>
+                <div class="hardware-item">
+                    <div class="hardware-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h3>ESP8266</h3>
+                    <p>WiFi module for wireless communication and data transmission</p>
+                </div>
+                <div class="hardware-item">
+                    <div class="hardware-icon">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                    <h3>Pi Camera</h3>
+                    <p>High-definition camera module for live monitoring and disease detection</p>
+                </div>
+                <div class="hardware-item">
+                    <div class="hardware-icon">
+                        <i class="fas fa-battery-full"></i>
+                    </div>
+                    <h3>Power Supply</h3>
+                    <p>12V DC power supply with backup battery system</p>
+                </div>
+            </div>
+            
+           
+
+            <div class="algorithm-box">
+                <h3 style="margin-bottom: 1rem; color: #34d399;">Automated Control Algorithm</h3>
+                <pre style="font-size: 0.9rem; line-height: 1.6;">
+START
+├── Initialize Sensors & Actuators
+├── Read Environmental Data
+│   ├── Temperature & Humidity (DHT11)
+│   ├── Soil Moisture Level
+│   ├── Light Intensity (LDR)
+│   └── Rain Detection
+├── Process Data & Make Decisions
+│   ├── IF soil_moisture < 30%
+│   │   └── Activate Irrigation (5 minutes)
+│   ├── IF temperature > 35°C
+│   │   └── Activate Cooling Fan
+│   ├── IF light_intensity < 300 lux
+│   │   └── Activate LED Grow Lights
+│   └── IF rain_detected == true
+│       └── Disable Irrigation System
+├── Send Data to Raspberry Pi
+├── Update Web Dashboard
+├── Wait 30 seconds
+└── REPEAT
+                </pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Media Gallery -->
+<section id="gallery" class="section gallery">
+    <div class="container">
+        <h2 class="section-title">Media Gallery</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="images/dashboard.png" alt="System Dashboard" loading="lazy">
+                </div>
+                <div class="gallery-content">
+                    <h3 class="gallery-title">System Dashboard</h3>
+                    <p class="gallery-desc">Main control dashboard showing real-time sensor data, system status, and environmental monitoring controls.</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="images/Farm control.png" alt="Farm Control Interface" loading="lazy">
+                </div>
+                <div class="gallery-content">
+                    <h3 class="gallery-title">Farm Control System</h3>
+                    <p class="gallery-desc">Advanced control interface for managing irrigation, lighting, and environmental parameters across the greenhouse.</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="images/chatbot.png" alt="AI Chatbot Interface" loading="lazy">
+                </div>
+                <div class="gallery-content">
+                    <h3 class="gallery-title">AI Assistant Chatbot</h3>
+                    <p class="gallery-desc">Intelligent chatbot providing plant care advice, troubleshooting support, and system guidance for users.</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="images/web interface.png" alt="Web Interface" loading="lazy">
+                </div>
+                <div class="gallery-content">
+                    <h3 class="gallery-title">Web Interface</h3>
+                    <p class="gallery-desc">Responsive web interface showing mobile-friendly design and comprehensive system monitoring capabilities.</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="images/Weather.png" alt="Weather Prediction System" loading="lazy">
+                </div>
+                <div class="gallery-content">
+                    <h3 class="gallery-title">Weather Prediction</h3>
+                    <p class="gallery-desc">AI-powered weather forecasting system helping optimize irrigation schedules and environmental controls based on predicted conditions.</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="images/implementedgreenhouse.jpg" alt="Implemented Greenhouse System" loading="lazy">
+                </div>
+                <div class="gallery-content">
+                    <h3 class="gallery-title">Implemented Greenhouse</h3>
+                    <p class="gallery-desc">Physical implementation of the automated greenhouse system showing sensors, controllers, and plant growth environment.</p>
+                </div>
+            </div>
+            <div class="gallery-item">
+                <div class="gallery-image">
+                    <img src="images/groupphoto.jpg" alt="Development Team" loading="lazy">
+                </div>
+                <div class="gallery-content">
+                    <h3 class="gallery-title">Development Team</h3>
+                    <p class="gallery-desc">The dedicated team behind the automated greenhouse project, showcasing collaborative effort and technical expertise.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- Research & Learning Section -->
+    <section id="research" class="section research">
+        <div class="container">
+            <h2 class="section-title">Key Learnings</h2>
+            <div class="research-content">
+                <div class="research-card">
+                    <div class="research-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="research-title">Collaborative Development</h3>
+                    <p class="research-desc">
+                        This project was developed as part of an advanced embedded systems course, combining expertise in hardware design, software development, and agricultural sciences. The multidisciplinary approach ensured comprehensive coverage of both technical and practical aspects.
+                    </p>
+                    <ul class="research-points">
+                        <li><i class="fas fa-check-circle"></i> Cross-functional team collaboration</li>
+                        <li><i class="fas fa-check-circle"></i> Agile development methodology</li>
+                        <li><i class="fas fa-check-circle"></i> Regular stakeholder feedback integration</li>
+                        <li><i class="fas fa-check-circle"></i> Iterative design improvements</li>
+                    </ul>
+                </div>
+                <div class="research-card">
+                    <div class="research-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3 class="research-title">Key Learning Points</h3>
+                    <p class="research-desc">
+                        The project presented several technical challenges that led to significant learning opportunities in IoT development, sensor integration, and real-time systems design.
+                    </p>
+                    <ul class="research-points">
+                        <li><i class="fas fa-check-circle"></i> Sensor calibration and noise filtering</li>
+                        <li><i class="fas fa-check-circle"></i> Real-time data processing optimization</li>
+                        <li><i class="fas fa-check-circle"></i> Machine learning model integration</li>
+                        <li><i class="fas fa-check-circle"></i> Power management for 24/7 operation</li>
+                        <li><i class="fas fa-check-circle"></i> Wireless communication protocols</li>
+                        <li><i class="fas fa-check-circle"></i> Web-based dashboard development</li>
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+    
+
+    
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact">
+        <div class="container">
+            <h2 class="section-title">Contact & Feedback</h2>
+            <div class="contact-content">
+                <p class="contact-text">
+                    Interested in learning more about this project or discussing potential collaborations? I'd love to hear from you! Whether you're a fellow developer, agricultural enthusiast, or potential partner, your feedback and insights are valuable.
+                </p>
+                <div class="contact-buttons">
+                    <a href="../index.html" class="btn">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Portfolio
+                    </a>
+                    <a href="mailto:nichula@example.com" class="btn btn-outline">
+                        <i class="fas fa-envelope"></i>
+                        Send Email
+                    </a>
+                    <a href="https://linkedin.com/in/nichula-wasalathilaka" class="btn btn-outline">
+                        <i class="fab fa-linkedin"></i>
+                        Connect on LinkedIn
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <p>&copy; 2024 Nichula Sathmith Wasalathilaka. All rights reserved.</p>
+                </div>
+                
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <a href="#hero" class="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script>
+        // Mobile Navigation Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    navMenu.classList.remove('active');
+                }
+            });
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Back to top button
+        const backToTop = document.querySelector('.back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // Active navigation highlight
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Add some interactive animations
+        document.querySelectorAll('.component-card, .feature-card, .resource-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
