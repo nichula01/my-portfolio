@@ -1,7 +1,11 @@
 import Link from "next/link";
 
+import { ArrowRight } from "lucide-react";
+
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { aboutContent, education, publications, resumeResources } from "@/data/content";
+import { SectionHeading } from "@/components/sections/section-heading";
 
 const focusList = aboutContent.focusAreas;
 
@@ -27,38 +31,45 @@ const summaryCards = [
 
 export function AboutSection() {
   return (
-    <section id="about" className="rounded-[2.5rem] border border-[#e3e7f3] bg-white p-10 shadow-[0_40px_90px_-70px_rgba(15,23,42,0.8)] sm:p-14">
-      <div className="grid gap-12 lg:grid-cols-[minmax(0,1.1fr)_0.9fr]">
-        <div className="space-y-8">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.45em] text-[#6473a1]">About</p>
-            <h2 className="mt-4 text-3xl font-semibold text-[#0b1330] sm:text-4xl">Building calm, precise research systems</h2>
-            <div className="mt-6 space-y-4 text-base leading-relaxed text-[#4b5774]">
-              {aboutContent.paragraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+    <section id="about" className="scroll-m-24 py-16 md:py-24">
+      <div className="space-y-16 md:space-y-20">
+        <SectionHeading eyebrow="About" title="Building calm, precise research systems" />
+        
+        <div className="grid gap-12 md:gap-16 lg:grid-cols-[1.3fr_1fr]">
+          <div className="space-y-6">
+            {aboutContent.paragraphs.slice(0, 2).map((paragraph, index) => (
+              <p key={index} className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                {paragraph}
+              </p>
+            ))}
+            <div className="flex flex-wrap gap-2 pt-4">
+              {focusList.map((topic) => (
+                <Badge key={topic} variant="outline" className="text-sm px-4 py-1.5 font-normal rounded-full border-border/60">
+                  {topic}
+                </Badge>
               ))}
             </div>
+            <div className="pt-4">
+              <Button asChild variant="ghost" className="px-0 hover:bg-transparent">
+                <Link href="/resources/Nichula_Wasalathilaka_CV.pdf" target="_blank" className="inline-flex items-center gap-2 text-foreground hover:gap-3 transition-all">
+                  View full profile <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
           </div>
-          <div className="flex flex-wrap gap-3 text-sm text-[#0b1330]">
-            {focusList.map((topic) => (
-              <Badge key={topic} className="border border-[#d6def4] bg-transparent px-4 py-1 text-xs font-semibold uppercase tracking-[0.3em] text-[#0f348c]">
-                {topic}
-              </Badge>
+
+          <div className="space-y-4">
+            {summaryCards.map((card) => (
+              <SummaryRow key={card.title} {...card} />
             ))}
           </div>
-          <p className="rounded-2xl border border-[#e4e8f7] bg-[#f7f8ff] p-5 text-sm text-[#0b1330]">{aboutContent.quote}</p>
-        </div>
-        <div className="grid gap-5 md:grid-cols-2">
-          {summaryCards.map((card) => (
-            <SummaryCard key={card.title} {...card} />
-          ))}
         </div>
       </div>
     </section>
   );
 }
 
-function SummaryCard({
+function SummaryRow({
   title,
   body,
   meta,
@@ -69,21 +80,21 @@ function SummaryCard({
   meta: string;
   href?: string;
 }) {
-  const card = (
-    <div className="group h-full rounded-[1.5rem] border border-[#e3e8f5] bg-white/80 p-6 text-sm text-[#4c5673] transition duration-500 hover:-translate-y-1 hover:border-[#aac2ff]">
-      <p className="text-[0.65rem] uppercase tracking-[0.45em] text-[#5c6b99]">{title}</p>
-      <p className="mt-2 text-lg font-semibold text-[#0b1330]">{body}</p>
-      <p className="mt-1 text-xs font-medium text-[#6b7798]">{meta}</p>
+  const content = (
+    <div className="p-6 border border-border/50 rounded-lg space-y-3 hover:border-border hover:shadow-sm transition-all bg-white">
+      <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground font-medium">{title}</p>
+      <p className="text-base font-medium text-foreground leading-snug">{body}</p>
+      <p className="text-sm text-muted-foreground">{meta}</p>
     </div>
   );
 
   if (href) {
     return (
-      <Link href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
-        {card}
+      <Link href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="block hover:opacity-75 transition-opacity">
+        {content}
       </Link>
     );
   }
 
-  return card;
+  return content;
 }

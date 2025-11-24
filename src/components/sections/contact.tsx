@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { Mail, MapPin, MessageSquare, Github, Linkedin } from "lucide-react";
+import { Github, Linkedin, Mail, MapPin } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { contactInfo } from "@/data/content";
+import { SectionHeading } from "@/components/sections/section-heading";
 
 const contactMethods = [
   {
@@ -33,55 +34,54 @@ const contactMethods = [
 
 export function ContactSection() {
   return (
-    <section id="contact" className="rounded-[2.5rem] border border-[#e3e7f3] bg-white p-10 text-foreground shadow-[0_50px_120px_-80px_rgba(15,23,42,0.8)] sm:p-14">
-      <p className="text-xs font-semibold uppercase tracking-[0.45em] text-[#6473a1]">Contact</p>
-      <h2 className="mt-4 text-3xl font-semibold text-[#0b1330] sm:text-4xl">Let&apos;s engineer the future together</h2>
-      <div className="mt-10 grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-        <div className="rounded-[1.8rem] border border-[#e1e6f6] bg-[#f9faff] p-6 text-[#4c5673]">
-          <p className="text-sm">
-            I collaborate with research groups, innovation labs, and startups on sensing, automation, and deep-learning projects.
-          </p>
-          <div className="mt-6 space-y-4 text-sm">
-            {contactMethods.map((method) => (
-              <div key={method.label} className="flex items-center gap-3 text-[#0b1330]">
-                <method.icon className="h-4 w-4 text-[#0f348c]" />
-                {method.href ? (
-                  <Link href={method.href} target={method.href.startsWith("http") ? "_blank" : undefined} rel="noreferrer" className="text-[#0f348c] hover:underline">
-                    {method.value}
-                  </Link>
-                ) : (
-                  <span>{method.value}</span>
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Button asChild className="rounded-full bg-[#0f348c] px-6 py-5 text-sm font-semibold tracking-[0.25em] hover:bg-[#0a2870]">
+    <section id="contact" className="scroll-m-24 py-16 md:py-24">
+      <div className="space-y-12 md:space-y-16">
+        <SectionHeading
+          eyebrow="Contact"
+          title="Let&apos;s engineer the future together"
+          description="Available for remote sensing, embedded automation, and AI research collaborations."
+        />
+        <div className="grid gap-12 md:gap-16 rounded-xl border border-border/50 p-8 md:p-12 lg:grid-cols-[0.9fr_1.1fr] bg-white shadow-sm">
+          <div className="space-y-8">
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+              I collaborate with research groups, innovation labs, and startups on sensing, automation, and deep-learning projects.
+            </p>
+            <div className="space-y-5 text-base">
+              {contactMethods.map((method) => (
+                <div key={method.label} className="flex items-center gap-3 text-foreground">
+                  <method.icon className="h-5 w-5 text-muted-foreground flex-shrink-0" />
+                  {method.href ? (
+                    <Link
+                      href={method.href}
+                      target={method.href.startsWith("http") ? "_blank" : undefined}
+                      rel="noreferrer"
+                      className="transition hover:text-muted-foreground leading-relaxed underline-offset-2 hover:underline"
+                    >
+                      {method.value}
+                    </Link>
+                  ) : (
+                    <span className="leading-relaxed">{method.value}</span>
+                  )}
+                </div>
+              ))}
+            </div>
+            <Button asChild size="lg" className="mt-8 rounded-full font-medium">
               <Link href={`mailto:${contactInfo.email}`}>
-                <Mail className="mr-2 h-4 w-4" /> Email me
-              </Link>
-            </Button>
-            <Button asChild variant="outline" className="rounded-full border-[#dfe3f3] px-6 py-5 text-sm font-semibold text-[#0b1330] hover:bg-[#f1f4ff]">
-              <Link href="https://cal.com/" target="_blank" rel="noreferrer">
-                <MessageSquare className="mr-2 h-4 w-4" /> Book a call
+                <Mail className="h-4 w-4" /> Email me
               </Link>
             </Button>
           </div>
-        </div>
-        <form
-          method="POST"
-          action={contactInfo.formAction}
-          className="rounded-2xl border border-[#edf0f8] p-6 text-sm"
-        >
-          <div className="grid gap-4">
+          <form method="POST" action="https://formspree.io/f/xanyqybv" className="space-y-8 text-base">
+            <input type="hidden" name="_subject" value="New Portfolio Contact Message" />
+            <input type="hidden" name="_next" value="/?message=sent" />
             <Field label="Name" name="name" required />
-            <Field label="Email" name="email" type="email" required />
+            <Field label="Email" name="_replyto" type="email" required />
             <Field label="Message" name="message" as="textarea" required />
-          </div>
-          <Button type="submit" className="mt-6 w-full rounded-full bg-[#0f348c] py-5 text-sm font-semibold tracking-[0.3em] hover:bg-[#0a2870]">
-            Send message
-          </Button>
-        </form>
+            <Button type="submit" className="w-full mt-10 rounded-full font-medium" size="lg">
+              Send message
+            </Button>
+          </form>
+        </div>
       </div>
     </section>
   );
@@ -101,14 +101,14 @@ function Field({
   as?: "textarea";
 }) {
   return (
-    <label className="text-sm font-medium text-foreground">
+    <label className="flex flex-col gap-3 text-sm text-muted-foreground font-medium">
       {label}
       {as === "textarea" ? (
         <textarea
           name={name}
           required={required}
-          className="mt-2 w-full rounded-xl border border-[#dfe3f3] bg-white/70 p-4 text-sm text-[#0b1330] outline-none transition focus:border-[#0f348c]"
           rows={5}
+          className="w-full border-b-2 border-border/40 bg-transparent pb-3 text-base text-foreground outline-none transition focus:border-foreground leading-relaxed resize-none"
           placeholder="Tell me about your project"
         />
       ) : (
@@ -116,7 +116,7 @@ function Field({
           name={name}
           type={type}
           required={required}
-          className="mt-2 w-full rounded-xl border border-[#dfe3f3] bg-white/70 p-4 text-sm text-[#0b1330] outline-none transition focus:border-[#0f348c]"
+          className="w-full border-b-2 border-border/40 bg-transparent pb-3 text-base text-foreground outline-none transition focus:border-foreground"
         />
       )}
     </label>

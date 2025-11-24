@@ -12,18 +12,15 @@ import { AwardsSection } from "@/components/sections/awards";
 
 export default function Home() {
   return (
-    <main className="bg-background text-foreground">
-      <div className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
-        <Navigation />
-        <div className="space-y-12">
+    <main className="bg-white text-foreground">
+      <Navigation />
+      <div className="mx-auto w-full max-w-[680px] px-5 pb-20 sm:px-8 lg:max-w-[1080px]">
+        <div className="space-y-24 md:space-y-32 lg:space-y-40">
           <HeroSection />
           <AboutSection />
           <ResearchAreasSection />
-          <PublicationsSection />
           <ProjectsSection />
-          <SkillsSection />
           <ExperienceSection />
-          <AwardsSection />
           <ContactSection />
         </div>
         <Footer />

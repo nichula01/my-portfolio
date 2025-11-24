@@ -1,47 +1,81 @@
-import { Building2, Cpu, Satellite } from "lucide-react";
-
-import { experienceHighlights } from "@/data/content";
-
-const icons = [Satellite, Cpu, Building2];
+import { SectionHeading } from "@/components/sections/section-heading";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { ArrowRight, Users, Globe, Calendar, Award } from "lucide-react";
 
 export function ExperienceSection() {
+  const stats = [
+    { icon: Calendar, label: "Duration", value: "1yr 7mo" },
+    { icon: Users, label: "Different Roles", value: "4" },
+    { icon: Globe, label: "Functional Areas", value: "3" },
+    { icon: Award, label: "Major Conference", value: "1" }
+  ];
+
+  const highlights = [
+    "Team Lead - IGT B2B and Volunteer Development",
+    "Public Relations & Engagement Specialist",
+    "NOVA 2023 Organizing Committee Member",
+    "Cross-cultural leadership with international volunteers"
+  ];
+
   return (
-    <section id="experience" className="rounded-[2.5rem] border border-[#e3e7f3] bg-white p-10 shadow-[0_45px_120px_-80px_rgba(15,23,42,0.85)] sm:p-14">
-      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.45em] text-[#6473a1]">Experience</p>
-          <h2 className="mt-4 text-3xl font-semibold text-[#0b1330] sm:text-4xl">Engineering experience & impact</h2>
-        </div>
-      </div>
-      <div className="mt-10 space-y-8">
-        {experienceHighlights.map((item, index) => {
-          const Icon = icons[index % icons.length];
-          return (
-            <article key={item.role} className="rounded-[2rem] border border-[#e1e6f6] bg-[#f9faff] p-8 text-[#4c5673] transition duration-500 hover:-translate-y-1 hover:border-[#9db6ff]">
-              <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                <div className="flex items-center gap-4">
-                  <span className="rounded-full border border-[#d9e0f4] p-3 text-[#0f348c]">
-                    <Icon className="h-6 w-6" />
-                  </span>
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.4em] text-[#7f8ea8]">{item.period}</p>
-                    <h3 className="mt-2 text-2xl font-semibold text-[#0b1330]">{item.role}</h3>
-                    <p className="text-sm text-[#5d6786]">{item.organization}</p>
-                  </div>
+    <section id="experience" className="scroll-m-24 py-16 md:py-24">
+      <div className="space-y-16 md:space-y-20">
+        <SectionHeading 
+          eyebrow="Experience" 
+          title="Leadership & youth development" 
+          description="1.7 years of experience with AIESEC, managing international programs and driving youth development initiatives."
+        />
+        
+        <div className="grid gap-12 md:gap-16 lg:grid-cols-[1fr_1.3fr] items-start">
+          {/* Stats */}
+          <div className="grid grid-cols-2 gap-4 md:gap-6">
+            {stats.map((stat) => (
+              <div key={stat.label} className="text-center space-y-3 p-6 rounded-lg border border-border/50 hover:border-border hover:shadow-sm transition-all">
+                <div className="w-14 h-14 bg-muted rounded-full flex items-center justify-center mx-auto">
+                  <stat.icon className="h-5 w-5 text-foreground" />
                 </div>
-                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#0f348c]">Impact</p>
+                <div className="text-2xl md:text-3xl font-semibold text-foreground tracking-tight">{stat.value}</div>
+                <div className="text-xs md:text-sm text-muted-foreground">{stat.label}</div>
               </div>
-              <p className="mt-6 text-base leading-relaxed">{item.summary}</p>
-              <div className="mt-6 flex flex-wrap gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-[#0f348c]">
-                {item.contributions.map((contribution) => (
-                  <span key={contribution} className="rounded-full border border-[#d8e0f6] px-4 py-1">
-                    {contribution}
-                  </span>
+            ))}
+          </div>
+
+          {/* Content */}
+          <div className="space-y-8">
+            <div className="space-y-5">
+              <h3 className="text-2xl md:text-3xl font-semibold leading-tight tracking-tight">
+                AIESEC Leadership Journey
+              </h3>
+              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                Developed leadership skills through managing international volunteer programs, 
+                coordinating cross-cultural exchanges, and driving youth development initiatives 
+                across multiple functional areas.
+              </p>
+            </div>
+            
+            <div className="space-y-5">
+              <h4 className="text-base font-semibold text-foreground">Key Roles & Achievements</h4>
+              <ul className="space-y-3">
+                {highlights.map((highlight) => (
+                  <li key={highlight} className="flex items-start gap-3 text-base text-muted-foreground leading-relaxed">
+                    <span className="mt-2 h-1.5 w-1.5 bg-foreground rounded-full flex-shrink-0"></span>
+                    {highlight}
+                  </li>
                 ))}
-              </div>
-            </article>
-          );
-        })}
+              </ul>
+            </div>
+
+            <div className="pt-4">
+              <Button asChild size="lg" variant="outline" className="rounded-full font-medium">
+                <Link href="/experience">
+                  View Full Experience
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -2,7 +2,6 @@ import type { Config } from "tailwindcss";
 import tailwindcssAnimate from "tailwindcss-animate";
 
 const config: Config = {
-  darkMode: ["class"],
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     container: {
@@ -52,6 +51,12 @@ const config: Config = {
       fontFamily: {
         display: ["Space Grotesk", "var(--font-sans)"],
         sans: ["Inter", "var(--font-sans)"]
+      },
+      maxWidth: {
+        content: "62rem"
+      },
+      spacing: {
+        section: "5.5rem"
       },
       backgroundImage: {
         "grid-pattern":
